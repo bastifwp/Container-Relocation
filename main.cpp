@@ -1,0 +1,138 @@
+#include<bits/stdc++.h>
+#include <fstream>
+#include <chrono>
+
+#include "global.h"
+using namespace std;
+
+//Creamos las variables globales del problema 
+string instance_name;
+int n_bays;
+int n_rows;
+int max_h;
+int n_initial_containers;
+int debug = 0;
+
+vector<vector<int>> initial_yard;
+vector<int> stack_position; //stack_position[i] -> indica el stack en el que está el individuo i
+
+//Variables con los hyperparámetros
+hyperparams params;
+
+//Generador de numeros aleatoreos
+mt19937 rng;
+
+
+int main(int argc, char *argv[]){
+
+
+    //Pedimos la semilla por consola
+    if(argc < 3){
+        cout << "Usage:\n./main instance_path seed max_gen popsize pcross pmut";
+        cout << "\nExample:\n./main Random/R020306_0020_001.txt 11 100 20 0.9 0.2\n";
+        exit(1);
+    }
+
+    //Asignamos el path
+    string path = argv[1];
+  
+    //Asignamos la semilla 
+    int seed = atoi(argv[2]);
+    randomize(seed);
+
+    //Definimos hyperparametros del algoritmo
+    params.max_gen = atoi(argv[3]);
+    params.popsize = atoi(argv[4]); // Multiplo de 4 
+    params.pmyo = 0.5;
+    params.pcross = stof(argv[5]);
+    params.pmut = stof(argv[6]);
+    params.k = 2;
+    params.n_heu = 4;
+    params.elite = 2; // Multiplo de 4, menor a popsize
+    
+    //Comenzamos lectura de la instancia
+    ifstream file(path);
+
+    if(!file.is_open()){
+        cout << "\nNo se pudo abrir el archivo";
+        exit(1);
+    }
+
+    cout << "Reading instance: " << path << "\n";
+    readInstance(file, initial_yard, stack_position);
+    printYard(initial_yard);
+
+    
+    vector<individuo> pop = {};
+    auto start = chrono::high_resolution_clock::now();
+
+    //Ahora que tenemos el yard inicial comenzamos a crear a los individuos
+    for(int i = 0; i< params.popsize; i++){
+        if(debug) printf("Moves of each Individuo: %d\n", i+1);
+        individuo test = initialize_ind(initial_yard, stack_position);
+        pop.push_back(test);
+    }
+
+    for(int i = 0; i < params.popsize; i++){
+        printf("\n\nIndividuo %d \n", i+1);
+        individuo actual = pop[i];
+        printInd(actual);
+    }
+    cout<<endl;
+
+    bool pruebas = false;
+
+    if(pruebas){
+
+        //Prueba de crossover
+        cout<<endl<<"Prueba Crossover: "<<endl;
+
+        vector<individuo> hijos = one_point_crossover(pop[params.popsize-1],pop[params.popsize-2]);
+        evaluateInd(hijos[0], initial_yard, stack_position); 
+        evaluateInd(hijos[1], initial_yard, stack_position);
+        cout<<endl<<"Padres: ";
+        cout<<endl; printInd(pop[params.popsize-1]); cout<<endl; printInd(pop[params.popsize-2]);
+        cout<<endl<<"Hijos: ";
+        cout<<endl; printInd(hijos[0]); cout<<endl; printInd(hijos[1]);
+
+        //Prueba de mutación
+        cout<<endl<<"Prueba Mutaciones: "<<endl;
+        individuo original = hijos[0];
+        cout<<endl; cout<<"Ind original: "; printInd(original);cout<<endl;
+
+        //Swap
+        swap(hijos[0]);
+        evaluateInd(hijos[0], initial_yard, stack_position);
+        cout<<endl; cout<<"Mutacion swap: "; printInd(hijos[0]);cout<<endl;
+        hijos[0] = original;
+
+        //Inversion
+        inversion(hijos[0]);
+        evaluateInd(hijos[0], initial_yard, stack_position);
+        cout<<endl; cout<<"Mutacion inversion: "; printInd(hijos[0]);cout<<endl;
+        hijos[0] = original;
+
+        //Int flip
+        intFlip(hijos[0]);
+        evaluateInd(hijos[0], initial_yard, stack_position);
+        cout<<endl; cout<<"Mutacion intFlip: "; printInd(hijos[0]);cout<<endl;
+    }    
+
+    for (int i = 0; i < params.max_gen; i++)
+    {
+        generateNewPop(pop);
+        mutatePop(pop);
+        evaluatePop(pop, initial_yard, stack_position);
+    }
+    
+    sort(pop.begin(), pop.end(), compararPorFobjAsc);
+
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> elapsed = end - start;
+
+    cout<<endl<<"Mejor individuo encontrado: ";printInd(pop[0]);
+    cout<<endl<<"Tiempo de ejecucion: "<<elapsed.count()<<" segundos"<<endl;
+
+    return 0;
+
+}
