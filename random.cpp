@@ -23,3 +23,9 @@ float getRandomProb(){
     uniform_real_distribution<float> dist(0.0f, 1.0f);
     return dist(rng);
 }
+
+//Funcion que retorna un numero real entre 0 y lim
+float getRandomProb_lim(float lim){
+    uniform_real_distribution<float> dist(0.0f, lim);
+    return dist(rng);
+}

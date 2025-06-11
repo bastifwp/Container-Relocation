@@ -34,6 +34,7 @@ void readInstance(std::ifstream &f, std::vector<std::vector<int>> &yard, std::ve
 void randomize(int seed);
 int getRandomInt(int a, int b);
 float getRandomProb();
+float getRandomProb_lim(float lim);
 
 /* Initialice functions */
 individuo initialize_ind(std::vector<std::vector<int>> &initial_yard, std::vector<int> &stack_position);
