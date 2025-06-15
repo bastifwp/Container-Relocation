@@ -32,9 +32,6 @@ void apply_chosen_heuristic(vector<vector<int>> &yard, vector<int> &stack_positi
     yard[destiny_stack].push_back(c2relocate);
     stack_position[c2relocate] = destiny_stack;
 
-    //Lo comento para q no se vean feas las pruebas
-    //if(debug) printf("%d %d %d (choosed: %d)\n", c2relocate, origin_stack, destiny_stack, choosed);
-
 }
 
 
@@ -63,10 +60,6 @@ void evaluateInd(individuo &ind, vector<vector<int>> &initial_yard, vector<int> 
         if(id_to_retrieve == actual_yard[origin_stack][h_origin-1]){
             actual_yard[origin_stack].pop_back();
             actual_positions[id_to_retrieve] = -1;
-
-            //Lo comento para q no se vean feas las pruebas
-            //if(debug) printf("%d %d %d\n", id_to_retrieve, origin_stack, -1);
-
             id_to_retrieve++;
             n_containers_actual--;
         }
@@ -78,12 +71,8 @@ void evaluateInd(individuo &ind, vector<vector<int>> &initial_yard, vector<int> 
 
             //Si se acaban los movimentos de la lista y aun quedan container, repetirlos desde el principio
             move_actual == n_moves-1? move_actual = 0 : move_actual++;
-        }
-
-        
+        }   
     }
-
-
 }
 
 void evaluatePop(vector<individuo> &pop, vector<vector<int>> &initial_yard, vector<int> &stack_position){

@@ -2,6 +2,7 @@
 #define UTILS_H
 
 #include <bits/stdc++.h>
+#include <fstream>
 
 
 struct individuo
@@ -26,6 +27,15 @@ struct hyperparams{
     int elite;
 };
 
+struct debug_params{
+    bool save_pops;
+    bool show_initial_yard;
+};
+
+struct write_files{
+    std::ofstream f_all_pops;
+    std::ofstream f_best_ind;
+};
 
 /* Reader functions */
 void readInstance(std::ifstream &f, std::vector<std::vector<int>> &yard, std::vector<int> &stack_position);
@@ -38,12 +48,14 @@ float getRandomProb_lim(float lim);
 
 /* Initialice functions */
 individuo initialize_ind(std::vector<std::vector<int>> &initial_yard, std::vector<int> &stack_position);
+std::vector<individuo> initialize_pop(std::vector<std::vector<int>> &initial_yard, std::vector<int> &stack_positions);
 
 /*Heuristics*/
 int RIL(std::vector<std::vector<int>> &yard, int origin_stack);
 int RI(std::vector<std::vector<int>> &yard, int origin_stack);
 int myopic_blocked(std::vector<std::vector<int>> &yard,  int origin_stack);
 int myopic_space(std::vector<std::vector<int>> &yard, int origin_stack);
+int apply_random_heuristic(std::vector<std::vector<int>> &yard, std::vector<int> &stack_position, int origin_stack);
 
 /*Evolutive Algorithm functions*/
 std::vector<individuo> one_point_crossover(individuo padre1, individuo padre2);
@@ -63,6 +75,12 @@ bool desc_sort(std::pair<int, int>& a,  std::pair<int, int>& b);
 bool compararPorFobjAsc(const individuo &a, individuo &b);
 
 
+/* file functions */
+void writeIndDecoded(std::vector<std::vector<int>> &yard, std::vector<int> &stack_position, individuo &ind, std::ofstream &f);
+void writeInd(individuo &ind, std::ofstream &f);
+void writePob(int n_gen_actual, std::vector<individuo>& pop, std::ofstream &f);
+
+
 /* ------------- VARIABLES GLOBALES ---------------------*/
 
 // Declaramos variables globales de la instancia
@@ -73,11 +91,13 @@ extern int max_h;
 extern int n_initial_containers;
 extern std::vector<std::vector<int>> initial_yard;
 extern std::vector<int> stack_position;
-extern int debug;
 
 //declaramos los hiperparametros
 extern hyperparams params;
+extern debug_params debug;
 
+//Declaramos los archivos
+extern write_files files;
 
 // Declaramos el generador aleatoreo
 extern std::mt19937 rng;

@@ -11,13 +11,16 @@ int n_bays;
 int n_rows;
 int max_h;
 int n_initial_containers;
-int debug = 0;
 
 vector<vector<int>> initial_yard;
 vector<int> stack_position; //stack_position[i] -> indica el stack en el que está el individuo i
 
 //Variables con los hyperparámetros
 hyperparams params;
+debug_params debug;
+
+//Variables con los archivos
+write_files files;
 
 //Generador de numeros aleatoreos
 mt19937 rng;
@@ -49,6 +52,17 @@ int main(int argc, char *argv[]){
     params.k = 2;
     params.n_heu = 4;
     params.elite = 2; // Multiplo de 4, menor a popsize
+
+    //Definimos que vamos a debugear
+    debug.save_pops = true;
+    debug.show_initial_yard = false;
+
+    //Creamos los archivos de data
+    if(debug.save_pops){
+        files.f_all_pops.open("data/all_pops.txt");
+        files.f_best_ind.open("data/best_ind.txt");
+    }
+
     
     //Comenzamos lectura de la instancia
     ifstream file(path);
@@ -60,33 +74,27 @@ int main(int argc, char *argv[]){
 
     cout << "Reading instance: " << path << "\n";
     readInstance(file, initial_yard, stack_position);
-    printYard(initial_yard);
+
+    //Mostramos el yard inicial
+    if(debug.show_initial_yard) printYard(initial_yard);
 
     
-    vector<individuo> pop = {};
     auto start = chrono::high_resolution_clock::now();
 
-    //Ahora que tenemos el yard inicial comenzamos a crear a los individuos
-    for(int i = 0; i< params.popsize; i++){
-        if(debug) printf("Moves of each Individuo: %d\n", i+1);
-        individuo test = initialize_ind(initial_yard, stack_position);
-        pop.push_back(test);
-    }
+    //Iniicializamos la población
+    vector<individuo> pop = initialize_pop(initial_yard, stack_position);
 
-    for(int i = 0; i < params.popsize; i++){
-        printf("\n\nIndividuo %d \n", i+1);
-        individuo actual = pop[i];
-        printInd(actual);
+
+    //Guardamos la población inicial en el txt
+    if(debug.save_pops){
+        writePob(0, pop, files.f_all_pops);
     }
-    cout<<endl;
+    
 
     bool pruebas = false;
-
     if(pruebas){
-
         //Prueba de crossover
         cout<<endl<<"Prueba Crossover: "<<endl;
-
         vector<individuo> hijos = one_point_crossover(pop[params.popsize-1],pop[params.popsize-2]);
         evaluateInd(hijos[0], initial_yard, stack_position); 
         evaluateInd(hijos[1], initial_yard, stack_position);
@@ -118,14 +126,22 @@ int main(int argc, char *argv[]){
         cout<<endl; cout<<"Mutacion intFlip: "; printInd(hijos[0]);cout<<endl;
     }    
 
+    //Ejecutamos el algoritmo
     for (int i = 0; i < params.max_gen; i++)
     {
         generateNewPop(pop);
         mutatePop(pop);
         evaluatePop(pop, initial_yard, stack_position);
+
+        if(debug.save_pops) writePob(i+1, pop, files.f_all_pops);
     }
     
+    //De la última población sorteamos de forma descendente
     sort(pop.begin(), pop.end(), compararPorFobjAsc);
+
+    sleep(1);
+    if(debug.save_pops) writeIndDecoded(initial_yard, stack_position, pop[0], files.f_best_ind);
+
 
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> elapsed = end - start;
