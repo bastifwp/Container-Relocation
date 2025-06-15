@@ -35,6 +35,7 @@ struct debug_params{
 struct write_files{
     std::ofstream f_all_pops;
     std::ofstream f_best_ind;
+    std::ofstream exec_params;
 };
 
 /* Reader functions */

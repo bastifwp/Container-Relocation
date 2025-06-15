@@ -61,6 +61,19 @@ int main(int argc, char *argv[]){
     if(debug.save_pops){
         files.f_all_pops.open("data/all_pops.txt");
         files.f_best_ind.open("data/best_ind.txt");
+        files.exec_params.open("data/params.txt");
+    }
+
+    //Escribimos los parámetros de ejecución
+    if(debug.save_pops){
+        files.exec_params << "PARAMS: \n";
+        files.exec_params << "Instance " << path << "\n";
+        files.exec_params << "Max_gen: " << params.max_gen << "\n"; 
+        files.exec_params << "Popsize: " << params.popsize << "\n";
+        files.exec_params << "Cross prob: " << params.pcross << "\n";
+        files.exec_params << "Mut prob: " << params.pmut << "\n";
+        files.exec_params << "N heuristics: " << params.n_heu << "\n";
+        files.exec_params << "Elites: " << params.elite << "\n";
     }
 
     
