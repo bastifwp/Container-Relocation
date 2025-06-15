@@ -118,10 +118,10 @@ void generateNewPop(vector<individuo> &old_pop){
         //Realizar torneos y generar hijos en base a ganadores
         for (int i=params.elite; i<params.popsize; i+=2)
         {
-            //parent1 = tournament (old_pop[a1[i]], old_pop[a1[i+1]]);                //Pa alternar ruleta y torneo ta acá
-            //parent2 = tournament (old_pop[a2[i]], old_pop[a2[i+1]]);
-            parent1 = roulette(old_pop);            
-            parent2 = roulette(old_pop);        
+            parent1 = tournament (old_pop[a1[i]], old_pop[a1[i+1]]);                //Pa alternar ruleta y torneo ta acá
+            parent2 = tournament (old_pop[a2[i]], old_pop[a2[i+1]]);
+            //parent1 = roulette(old_pop);            
+            //parent2 = roulette(old_pop);        
             //parent2 = tournament (old_pop[a1[i+2]], old_pop[a1[i+3]]);
             children = one_point_crossover(parent1, parent2);
             new_pop[i] = children[0]; new_pop[i+1] = children[1];
