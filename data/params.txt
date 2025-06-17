@@ -1,8 +1,8 @@
 PARAMS: 
 Instance Random/R101606_0720_002.txt
-Max_gen: 300
-Popsize: 40
+Max_gen: 500
+Popsize: 80
 Cross prob: 1
-Mut prob: 0.04
+Mut prob: 0.01
 N heuristics: 4
 Elites: 2

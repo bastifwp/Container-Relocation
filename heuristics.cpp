@@ -6,7 +6,7 @@ using namespace std;
 
 /* -------------- Estas funciones retornan directamente el mejor valor ----------------*/
 
-//Función miope de espacio que cambia al stack con más espacio
+//Función miope de espacio que cambia al stack con más espacio (a la izquierda)
 int myopic_space(vector<vector<int>> &yard, int origin_stack){
     //Recorremos todo el yard y vamos calculando
     int max_space = 0;
@@ -155,14 +155,74 @@ int RIL(vector<vector<int>> &yard, int origin_stack){
     return choosed_stack;
 }
 
+//Función miope inversa de espacio que cambia al stack con menos espacio
+int myopic_min_space(vector<vector<int>> &yard, int origin_stack){
+
+    //Recorremos todo el yard y vamos calculando
+    int min_space = max_h + 1;
+    int choosed_stack = -1;
+
+    for(int i = 0; i < n_bays*n_rows; i++){
+
+        if(i == origin_stack || yard[i].size() >= max_h){
+            continue;
+        }
+
+        //Verificamos si es peor que lo que ya hemos encontrado
+        int value = max_h - yard[i].size();
+        if(value < min_space){
+            min_space = value;
+            choosed_stack = i;
+        }
+    }
+
+    //Retornamos el peor stack para moverse
+    return choosed_stack;
+}
+
+//Funcion miope inversa que cambia al stack con mas bloqueos
+int RI_inverse(vector<vector<int>> &yard, int origin_stack){
+
+    //Recorremos todo el yard y vamos calculando
+    int h_origin = yard[origin_stack].size();
+    int c2relocate = yard[origin_stack][h_origin-1];
+    int choosed_stack = 0;
+    int max_ri = -1;
+
+    for(int i = 0; i < n_bays*n_rows; i++){
+        int ri_stack = 0;
+
+        if(i == origin_stack){
+            continue;
+        }
+
+        if(max_h == yard[i].size()) //Stack lleno
+            continue;
+
+        int size = yard[i].size();
+        for(int j = 0; j < size; j++){
+            if(yard[i][j] < c2relocate)
+                ri_stack++;
+        }
+
+        //Verificamos si es peor que lo que ya hemos encontrado
+        if(ri_stack > max_ri){
+            max_ri = ri_stack;
+            choosed_stack = i;
+        }
+    }
+
+    //Retornamos el peor stack para moverse
+    return choosed_stack;
+}
 
 //Función para elegir una de las funciones miopes disponibles de forma random
 //La idea es que le aplique una heurística al yard y retorne la heurística que utilizó
 int apply_random_heuristic(vector<vector<int>> &yard, vector<int> &stack_position, int origin_stack){
 
     //Obtenemos un número aleatorio para elegir la heurística
-    int n_heuristic = 4;
-    int choosed = getRandomInt(1, n_heuristic);
+    //int n_heuristic = 4;
+    int choosed = getRandomInt(1, params.n_heu);
     int destiny_stack;
 
 
@@ -181,6 +241,12 @@ int apply_random_heuristic(vector<vector<int>> &yard, vector<int> &stack_positio
     //Heurística RIL
     else if(choosed == 4){
         destiny_stack = RIL(yard, origin_stack);
+    }
+    else if(choosed == 5){
+        destiny_stack = myopic_min_space(yard, origin_stack);
+    }
+    else if(choosed == 6){
+        destiny_stack = RI_inverse(yard, origin_stack);
     }
 
 

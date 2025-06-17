@@ -94,6 +94,13 @@ void writeIndDecoded(vector<vector<int>> &yard, vector<int> &stack_position, ind
                 destiny_stack = RIL(actual_yard, origin_stack);
             }
 
+            else if(choosed == 5){
+                destiny_stack = myopic_min_space(actual_yard, origin_stack);
+            }
+            else if(choosed == 6){
+                destiny_stack = RI_inverse(actual_yard, origin_stack);
+            }
+
             actual_yard[origin_stack].pop_back();
             actual_yard[destiny_stack].push_back(c2relocate);
             actual_positions[c2relocate] = destiny_stack;

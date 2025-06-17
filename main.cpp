@@ -94,7 +94,7 @@ int main(int argc, char *argv[]){
     
     auto start = chrono::high_resolution_clock::now();
 
-    //Iniicializamos la población
+    //Inicializamos la población
     vector<individuo> pop = initialize_pop(initial_yard, stack_position);
 
 

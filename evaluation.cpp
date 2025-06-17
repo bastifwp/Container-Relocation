@@ -25,6 +25,14 @@ void apply_chosen_heuristic(vector<vector<int>> &yard, vector<int> &stack_positi
         destiny_stack = RIL(yard, origin_stack);
     }
 
+    else if(choosed == 5){
+        destiny_stack = myopic_min_space(yard, origin_stack);
+    }
+
+    else if(choosed == 6){
+        destiny_stack = RI_inverse(yard, origin_stack);
+    }
+
     //Realizamos el movimiento
     int h_origin = yard[origin_stack].size();
     int c2relocate = yard[origin_stack][h_origin-1];
