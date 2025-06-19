@@ -78,53 +78,135 @@ individuo roulette(vector<individuo> old_pop){
 }
 */
 
-//Funcion para generar nueva poblacion a partir de una poblacion padre
+
+
+/* //Este hace la selección de los individuos que van al torneo full al azar.
+// Funcion para generar nueva poblacion a partir de una poblacion padre
 void generateNewPop(vector<individuo> &old_pop){
 
-    vector<int> a1(params.popsize), a2(params.popsize);
+    int temp;
+    int rand1, rand2;
+    individuo parent1, parent2;
+    vector<individuo> new_pop(params.popsize), children;
+
+    double p;
+    sort(old_pop.begin(), old_pop.end(), compararPorFobjAsc);
+
+    //Obtener elite de poblacion padre y pasarla directamente a la nueva poblacion
+    for (int i = 0; i < params.elite; i++){
+        new_pop[i] = old_pop[i];
+    }
+
+    for (int c = params.elite; c < params.popsize; c++){
+
+        rand1 = getRandomInt(0, params.popsize-1);
+        rand2 = getRandomInt(0, params.popsize-1);
+        while(rand1 == rand2)
+            rand2 = getRandomInt(0, params.popsize-1);
+        
+        parent1 = tournament(old_pop[rand1], old_pop[rand2]);         //Pa alternar ruleta y torneo ta acá
+        //parent1 = roulette(old_pop);    
+        
+        p = getRandomProb();
+        if(p<=params.pcross){
+            rand1 = getRandomInt(0, params.popsize-1);
+            rand2 = getRandomInt(0, params.popsize-1);
+            while(rand1 == rand2)
+                rand2 = getRandomInt(0, params.popsize-1);
+
+            parent2 = tournament(old_pop[rand1], old_pop[rand2]);   
+
+            //parent2 = roulette(old_pop);        
+            //parent2 = tournament (old_pop[a1[i+2]], old_pop[a1[i+3]]);//<- No sé que es esto
+            
+            float cross = getRandomProb();
+            if(cross <= 0.5){
+                children = one_point_crossover(parent1, parent2);
+            }
+            else{
+                children = two_point_crossover(parent1, parent2);
+            }
+      
+            //children = one_point_crossover(parent1, parent2);
+            if(c == params.popsize-1){ // Aquí se podría probar quedandonos con el mejor o algo
+                float trolley = getRandomProb();
+                if(trolley <= 0.5){
+                    new_pop[c] = children[0];
+                }
+                else{
+                    new_pop[c] = children[1];
+                }
+            }
+            else{
+                new_pop[c] = children[0]; new_pop[c+1] = children[1];
+            }
+            c++;
+        }
+        else if(p<=(params.pcross+params.pmut)){
+            int mut = getRandomInt(1,3);
+            if(mut == 1){
+                swap(parent1);
+            }
+            else if(mut == 2){
+                inversion(parent1);
+            }
+            else{
+                intFlip(parent1);
+            }
+            new_pop[c] = parent1;
+        }
+        else
+            new_pop[c] = parent1;
+    }
+
+    old_pop = new_pop;
+}
+*/
+
+// Esta es una versión usando el a1 y a2 para que se repitan menos los individuos que van a torneo.
+void generateNewPop(vector<individuo> &old_pop){
+
+    vector<int> a1(params.popsize+1), a2(params.popsize+1);
     int temp;
     int rand;
     individuo parent1, parent2;
     vector<individuo> new_pop(params.popsize), children;
 
-    double p = getRandomProb();
+    double p;
     sort(old_pop.begin(), old_pop.end(), compararPorFobjAsc);
 
-    if(p<=params.pcross){
-    
-        //Obtener elite de poblacion padre y pasarla directamente a la nueva poblacion
-        for (int i = 0; i < params.elite; i++)
-        {
-            new_pop[i] = old_pop[i];
-        }
+    //Obtener elite de poblacion padre y pasarla directamente a la nueva poblacion
+    for (int i = 0; i < params.elite; i++){
+        new_pop[i] = old_pop[i];
+    }
 
-        //Preparar torneos
-        for (int i=0; i<params.popsize; i++)
-        {
-            a1[i] = a2[i] = i;
-        }
-        for (int i=0; i<params.popsize; i++)
-        {
-            rand = getRandomInt(i, params.popsize-1);
-            temp = a1[rand];
-            a1[rand] = a1[i];
-            a1[i] = temp;
-            rand = getRandomInt(i, params.popsize-1);
-            temp = a2[rand];
-            a2[rand] = a2[i];
-            a2[i] = temp;
-        }
+    //Preparar torneos
+    for (int i=0; i<params.popsize; i++)
+    {
+        a1[i] = a2[i] = i;
+    }
+    for (int i=0; i<params.popsize; i++)
+    {
+        rand = getRandomInt(i, params.popsize-1);
+        temp = a1[rand];
+        a1[rand] = a1[i];
+        a1[i] = temp;
+        rand = getRandomInt(i, params.popsize-1);
+        temp = a2[rand];
+        a2[rand] = a2[i];
+        a2[i] = temp;
+    }
+    a1[params.popsize] = a1[0]; //Esto es para el caso cuando c=19 y se hace cruzamiento.
+    a2[params.popsize] = a2[0]; //Realmente no se usa el a1[0] a menos que no haya elitismo, quizas se podría hacer un numero al azar en ese caso.
 
-        //Realizar torneos y generar hijos en base a ganadores
-        for (int i=params.elite; i<params.popsize; i+=2)
-        {
-            parent1 = tournament (old_pop[a1[i]], old_pop[a1[i+1]]);                //Pa alternar ruleta y torneo ta acá
-            parent2 = tournament (old_pop[a2[i]], old_pop[a2[i+1]]);
-            //parent1 = roulette(old_pop);            
+    for (int c = params.elite; c < params.popsize; c++){
+        parent1 = tournament(old_pop[a1[c]], old_pop[a1[c+1]]);         //Pa alternar ruleta y torneo ta acá
+        //parent1 = roulette(old_pop);    
+        p = getRandomProb();
+        if(p<=params.pcross){
+            parent2 = tournament(old_pop[a2[c]], old_pop[a2[c+1]]);
             //parent2 = roulette(old_pop);        
-            //parent2 = tournament (old_pop[a1[i+2]], old_pop[a1[i+3]]);
-
-            /* Pa ver tambien el two_point */
+            //parent2 = tournament (old_pop[a1[i+2]], old_pop[a1[i+3]]);//<- No sé que es esto
 
             float cross = getRandomProb();
             if(cross <= 0.5){
@@ -135,19 +217,38 @@ void generateNewPop(vector<individuo> &old_pop){
             }
 
             //children = one_point_crossover(parent1, parent2);
-            new_pop[i] = children[0]; new_pop[i+1] = children[1];
-
-            //parent1 = tournament (old_pop[a2[i]], old_pop[a2[i+1]]);
-            //parent2 = tournament (old_pop[a2[i+2]], old_pop[a2[i+3]]);
-            //children = one_point_crossover(parent1, parent2);
-            //new_pop[i+2] = children[0]; new_pop[i+3] = children[1];
+            if(c == params.popsize-1){
+                float cain = getRandomProb();
+                if(cain <= 0.5){
+                    new_pop[c] = children[0];
+                }
+                else{
+                    new_pop[c] = children[1];
+                }
+            }
+            else{
+                new_pop[c] = children[0]; new_pop[c+1] = children[1];
+            }
+            c++;
         }
-        old_pop = new_pop;
-
+        else if(p<=(params.pcross+params.pmut)){
+            int mut = getRandomInt(1,3);
+            if(mut == 1){
+                swap(parent1);
+            }
+            else if(mut == 2){
+                inversion(parent1);
+            }
+            else{
+                intFlip(parent1);
+            }
+            new_pop[c] = parent1;
+        }
+        else
+            new_pop[c] = parent1;
     }
-
+    old_pop = new_pop;
 }
-
 
 //Si ninguno domina al otro, se retorna uno al azar,
 //pero podriamos implementar el calculo de crowding distance
@@ -183,7 +284,3 @@ individuo tournamentMultiFO(individuo &ind1, individuo &ind2){
     }
 
 }
-
-
-
-

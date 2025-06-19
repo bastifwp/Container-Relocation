@@ -32,7 +32,7 @@ int main(int argc, char *argv[]){
     //Pedimos la semilla por consola
     if(argc < 3){
         cout << "Usage:\n./main instance_path seed max_gen popsize pcross pmut";
-        cout << "\nExample:\n./main Random/R020306_0020_001.txt 11 100 20 0.9 0.2\n";
+        cout << "\nExample:\n./main Random/R020306_0020_001.txt 11 100 20 0.8 0.1\n";
         exit(1);
     }
 
@@ -51,7 +51,7 @@ int main(int argc, char *argv[]){
     params.pmut = stof(argv[6]);
     params.k = 2;
     params.n_heu = 4;
-    params.elite = 2; // Multiplo de 4, menor a popsize
+    params.elite = 1; // Multiplo de 4, menor a popsize
 
     //Definimos que vamos a debugear
     debug.save_pops = true;
@@ -143,7 +143,7 @@ int main(int argc, char *argv[]){
     for (int i = 0; i < params.max_gen; i++)
     {
         generateNewPop(pop);
-        mutatePop(pop);
+        //mutatePop(pop);
         evaluatePop(pop, initial_yard, stack_position);
 
         if(debug.save_pops) writePob(i+1, pop, files.f_all_pops);

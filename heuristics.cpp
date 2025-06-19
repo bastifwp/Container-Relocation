@@ -74,7 +74,7 @@ int RI(vector<vector<int>> &yard, int origin_stack){
     int h_origin = yard[origin_stack].size();
     int c2relocate = yard[origin_stack][h_origin-1];
     int choosed_stack = 0;
-    int min_ri = yard[0].size();
+    int min_ri = yard[0].size(); // Esta es la única diferencia con myopic_blocked, no debería importar (creo)
 
     for(int i = 0; i < n_bays*n_rows; i++){
         int ri_stack = 0;
@@ -124,8 +124,8 @@ int RIL(vector<vector<int>> &yard, int origin_stack){
         if(max_h == yard[i].size()) //Stack lleno
             continue;
 
-        if(yard[i].size() == 0) //Forzar elegir stack vacio
-            return i;
+        //if(yard[i].size() == 0) //Forzar elegir stack vacio
+        //    return i;
 
         int size = yard[i].size();
         for(int j = 0; j < size; j++){

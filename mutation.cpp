@@ -62,6 +62,7 @@ void intFlip(individuo &ind){// De toda la vida
 }
 
 //Mutar poblacion, con una probabilidad de pmut por individuo
+/*
 void mutatePop(vector<individuo> &pop){
 
     for (int i = params.elite; i < params.popsize; i++)
@@ -78,3 +79,4 @@ void mutatePop(vector<individuo> &pop){
         }
     }  
 }
+*/
