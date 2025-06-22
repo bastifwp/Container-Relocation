@@ -10,7 +10,7 @@ void swap(individuo &ind){// De toda la vida
     for (int i = 0; i < moves_size; i++)
     {
         double p = getRandomProb();
-        if(p <= params.pmut){
+        if(p <= params.pmut_swap){
             int a = i;
             int b = getRandomInt(0,moves_size-1);
             int aux = ind.moves[a];
@@ -23,9 +23,9 @@ void swap(individuo &ind){// De toda la vida
 void inversion(individuo &ind){// Entre dos puntos random
 
     int moves_size = ind.moves.size();
-    double p = getRandomProb();
+  //  double p = getRandomProb();
 
-    if(p <= params.pmut*moves_size){
+    //if(p <= params.pmut_inversion*moves_size){ -> creo que esto no debería estar
 
         int a = getRandomInt(0,moves_size-1);
         int b = getRandomInt(0,moves_size-1);
@@ -43,7 +43,7 @@ void inversion(individuo &ind){// Entre dos puntos random
         {
             ind.moves[i] = section[b-i];
         }
-    }
+   // }
       
 }
 
@@ -54,7 +54,7 @@ void intFlip(individuo &ind){// De toda la vida
     for (int i = 0; i < moves_size; i++)
     {
         double p = getRandomProb();
-        if(p <= params.pmut){
+        if(p <= params.pmut_intFlip){
             int j = getRandomInt(0,moves_size-1);
             ind.moves[i] = getRandomInt(1,params.n_heu);
         }

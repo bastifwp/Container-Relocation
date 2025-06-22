@@ -30,9 +30,9 @@ int main(int argc, char *argv[]){
 
 
     //Pedimos la semilla por consola
-    if(argc < 3){
-        cout << "Usage:\n./main instance_path seed max_gen popsize pcross pmut";
-        cout << "\nExample:\n./main Random/R020306_0020_001.txt 11 100 20 0.8 0.1\n";
+    if(argc < 10){
+        cout << "Usage:\n./main instance_path seed max_gen popsize pcross pmut pmut_swap pmut_inversion pmut_intFlip";
+        cout << "\nExample:\n./main Random/R020306_0020_001.txt 11 5000 20 0.8 0.2 swap inv flip\n";
         exit(1);
     }
 
@@ -49,8 +49,10 @@ int main(int argc, char *argv[]){
     params.pmyo = 0.5;
     params.pcross = stof(argv[5]);
     params.pmut = stof(argv[6]);
-    params.k = 2;
-    params.n_heu = 4;
+    params.pmut_swap = stof(argv[7]);
+    params.pmut_inversion = stof(argv[8]);
+    params.pmut_intFlip = stof(argv[9]);
+    params.n_heu = 3;
     params.elite = 1; // Multiplo de 4, menor a popsize
 
     //Definimos que vamos a debugear
@@ -68,10 +70,14 @@ int main(int argc, char *argv[]){
     if(debug.save_pops){
         files.exec_params << "PARAMS: \n";
         files.exec_params << "Instance " << path << "\n";
+        files.exec_params << "Seed: " << seed << "\n";
         files.exec_params << "Max_gen: " << params.max_gen << "\n"; 
         files.exec_params << "Popsize: " << params.popsize << "\n";
         files.exec_params << "Cross prob: " << params.pcross << "\n";
         files.exec_params << "Mut prob: " << params.pmut << "\n";
+        files.exec_params << "Swap prob: " << params.pmut_swap << "\n";
+        files.exec_params << "Inversion prob: " << params.pmut_inversion << "\n";
+        files.exec_params << "intFlip prob: " << params.pmut_intFlip << "\n"; 
         files.exec_params << "N heuristics: " << params.n_heu << "\n";
         files.exec_params << "Elites: " << params.elite << "\n";
     }
@@ -87,7 +93,6 @@ int main(int argc, char *argv[]){
 
     cout << "Reading instance: " << path << "\n";
     readInstance(file, initial_yard, stack_position);
-
     //Mostramos el yard inicial
     if(debug.show_initial_yard) printYard(initial_yard);
 
@@ -96,8 +101,7 @@ int main(int argc, char *argv[]){
 
     //Inicializamos la población
     vector<individuo> pop = initialize_pop(initial_yard, stack_position);
-
-
+  
     //Guardamos la población inicial en el txt
     if(debug.save_pops){
         writePob(0, pop, files.f_all_pops);
@@ -152,7 +156,6 @@ int main(int argc, char *argv[]){
     //De la última población sorteamos de forma descendente
     sort(pop.begin(), pop.end(), compararPorFobjAsc);
 
-    sleep(1);
     if(debug.save_pops) writeIndDecoded(initial_yard, stack_position, pop[0], files.f_best_ind);
 
 

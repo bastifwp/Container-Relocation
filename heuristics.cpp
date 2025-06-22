@@ -225,27 +225,22 @@ int apply_random_heuristic(vector<vector<int>> &yard, vector<int> &stack_positio
     int choosed = getRandomInt(1, params.n_heu);
     int destiny_stack;
 
-
     //Heurística space
-    if (choosed ==  1){
+    if (choosed == 1){
         destiny_stack = myopic_space(yard, origin_stack);
     }
-    //Heurística block
-    else if (choosed == 2){
-        destiny_stack = myopic_blocked(yard, origin_stack);
-    }
     //Heurística RI
-    else if(choosed == 3){
+    else if(choosed == 2){
         destiny_stack = RI(yard, origin_stack);
     }
     //Heurística RIL
-    else if(choosed == 4){
+    else if(choosed == 3){
         destiny_stack = RIL(yard, origin_stack);
     }
-    else if(choosed == 5){
+    else if(choosed == 4){
         destiny_stack = myopic_min_space(yard, origin_stack);
     }
-    else if(choosed == 6){
+    else if(choosed == 5){
         destiny_stack = RI_inverse(yard, origin_stack);
     }
 

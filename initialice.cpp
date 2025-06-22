@@ -53,7 +53,6 @@ vector<individuo> initialize_pop(vector<vector<int>> &initial_yard, vector<int> 
     
     vector<individuo> pop = {};
     for(int i = 0; i < params.popsize; i++){
-
         //Copiamos el yard para inicializarl a cada individuo
         individuo new_ind = initialize_ind(initial_yard, stack_positions);
         pop.push_back(new_ind);

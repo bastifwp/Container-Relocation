@@ -217,6 +217,8 @@ void generateNewPop(vector<individuo> &old_pop){
             }
 
             //children = one_point_crossover(parent1, parent2);
+
+            //En caso que no alcancen alguno de los dos hijos, se elige uno aleatoreamente
             if(c == params.popsize-1){
                 float cain = getRandomProb();
                 if(cain <= 0.5){
@@ -232,14 +234,16 @@ void generateNewPop(vector<individuo> &old_pop){
             c++;
         }
         else if(p<=(params.pcross+params.pmut)){
-            int mut = getRandomInt(1,3);
-            if(mut == 1){
+
+            //Asignemos probabilidades para cada mutación
+            float mut = getRandomProb();
+            if(mut < params.pmut_swap){
                 swap(parent1);
             }
-            else if(mut == 2){
+            else if(mut < params.pmut_swap + params.pmut_inversion){
                 inversion(parent1);
             }
-            else{
+            else if(mut < params.pmut_swap + params.pmut_inversion + params.pmut_intFlip){
                 intFlip(parent1);
             }
             new_pop[c] = parent1;

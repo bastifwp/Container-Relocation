@@ -18,11 +18,16 @@ struct individuo
 
 struct hyperparams{
     float pmyo;
-    float pmut;
-    float pcross;
+    float pmut; //Probabilidad que se realice mutacion
+    
+    //Probabilidades individuales para cada mutación (la idea es que sumen 1)
+    float pmut_swap;
+    float pmut_inversion; 
+    float pmut_intFlip;
+
+    float pcross; //Probabilidad que se realice cross over 
     int popsize;
     int max_gen;
-    int k; //Cantidad de grupos de la lista de movimientos
     int n_heu;//Cantidad de heurísticas
     int elite;
 };
