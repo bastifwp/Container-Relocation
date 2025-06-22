@@ -1,0 +1,31 @@
+seed=$1
+
+# Directorios de input y output
+instances_dir="Random_test"
+output_dir="testing"
+
+# Parámetros del algoritmo
+max_gen=1000
+popsize=40
+pcross=0.6
+pmut=0.4
+pmut_swap=0.3
+pmut_inversion=0.3
+pmut_intFlip=0.05
+
+# Creamos carpeta de resultados
+mkdir -p "${output_dir}"
+
+# Bucle por cada instancia
+for instance_path in "${instances_dir}"/*; do
+  instance=$(basename "${instance_path}" .txt)
+  output_file="${output_dir}/out_${instance}_${seed}.out"
+
+  # Llamada a tu ejecutable:
+  # ./main instance_path seed max_gen popsize pcross pmut pmut_swap pmut_inversion pmut_intFlip
+  ./main "${instance_path}" "${seed}" "${max_gen}" "${popsize}" \
+         "${pcross}" "${pmut}" "${pmut_swap}" "${pmut_inversion}" "${pmut_intFlip}" \
+    > "${output_file}"
+
+  echo "Generado: ${output_file}"
+done

@@ -30,7 +30,7 @@ void printInd(individuo &ind){
     for (int i = 0; i < ind.moves.size(); i++){
         printf("%d ", ind.moves[i]);
     }
-    printf(" F[0]= %d ", ind.fobj[0]);
+    printf("\nF[0]= %d ", ind.fobj[0]);
     
 }
 
