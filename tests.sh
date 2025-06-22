@@ -13,16 +13,14 @@ pmut_swap=0.3
 pmut_inversion=0.3
 pmut_intFlip=0.05
 
-# Creamos carpeta de resultados
 mkdir -p "${output_dir}"
 
-# Bucle por cada instancia
+# Ciclo para cada instancia
 for instance_path in "${instances_dir}"/*; do
+
   instance=$(basename "${instance_path}" .txt)
   output_file="${output_dir}/out_${instance}_${seed}.out"
 
-  # Llamada a tu ejecutable:
-  # ./main instance_path seed max_gen popsize pcross pmut pmut_swap pmut_inversion pmut_intFlip
   ./main "${instance_path}" "${seed}" "${max_gen}" "${popsize}" \
          "${pcross}" "${pmut}" "${pmut_swap}" "${pmut_inversion}" "${pmut_intFlip}" \
     > "${output_file}"
