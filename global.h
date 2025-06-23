@@ -63,6 +63,7 @@ int myopic_blocked(std::vector<std::vector<int>> &yard,  int origin_stack);
 int myopic_space(std::vector<std::vector<int>> &yard, int origin_stack);
 int myopic_min_space(std::vector<std::vector<int>> &yard, int origin_stack);
 int RI_inverse(std::vector<std::vector<int>> &yard, int origin_stack);
+int top_diff(std::vector<std::vector<int>> &yard, int origin_stack);
 int apply_random_heuristic(std::vector<std::vector<int>> &yard, std::vector<int> &stack_position, int origin_stack);
 
 /*Evolutive Algorithm functions*/

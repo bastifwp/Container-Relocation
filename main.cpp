@@ -56,7 +56,7 @@ int main(int argc, char *argv[]){
     params.elite = 1; // Multiplo de 4, menor a popsize
 
     //Definimos que vamos a debugear
-    debug.save_pops = true;
+    debug.save_pops = false;
     debug.show_initial_yard = false;
 
     //Creamos los archivos de data
@@ -87,7 +87,7 @@ int main(int argc, char *argv[]){
     ifstream file(path);
 
     if(!file.is_open()){
-        cout << "\nNo se pudo abrir el archivo";
+        cout << "\nNo se pudo abrir el archivo" << path << endl;
         exit(1);
     }
 
@@ -98,10 +98,10 @@ int main(int argc, char *argv[]){
 
     
     auto start = chrono::high_resolution_clock::now();
-
     //Inicializamos la población
+
     vector<individuo> pop = initialize_pop(initial_yard, stack_position);
-  
+
     //Guardamos la población inicial en el txt
     if(debug.save_pops){
         writePob(0, pop, files.f_all_pops);
@@ -144,8 +144,9 @@ int main(int argc, char *argv[]){
     }    
 
     //Ejecutamos el algoritmo
+
     for (int i = 0; i < params.max_gen; i++)
-    {
+    {      
         generateNewPop(pop);
         //mutatePop(pop);
         evaluatePop(pop, initial_yard, stack_position);

@@ -5,31 +5,41 @@
 using namespace std;
 
 void apply_chosen_heuristic(vector<vector<int>> &yard, vector<int> &stack_position, int origin_stack, int choosed){
-
     int destiny_stack;
 
     //Heurística space
     if (choosed == 1){
+ //       cout << "my\n";
         destiny_stack = myopic_space(yard, origin_stack);
     }
     //Heurística RI
     else if(choosed == 2){
+  //      cout << "ri\n";
         destiny_stack = RI(yard, origin_stack);
     }
     //Heurística RIL
     else if(choosed == 3){
+//        cout << "ril\n";
         destiny_stack = RIL(yard, origin_stack);
     }
-
+    //Heurística top_diff
     else if(choosed == 4){
-        destiny_stack = myopic_min_space(yard, origin_stack);
+ //       cout << "WTf\n";
+        destiny_stack = top_diff(yard, origin_stack);
     }
 
     else if(choosed == 5){
+   //     cout << "WTF\n";
+        destiny_stack = myopic_min_space(yard, origin_stack);
+    }
+
+    else if(choosed == 6){
+   //     cout << "WTF\n";
         destiny_stack = RI_inverse(yard, origin_stack);
     }
 
     //Realizamos el movimiento
+    //cout << "DESTINY: " << destiny_stack << endl;
     int h_origin = yard[origin_stack].size();
     int c2relocate = yard[origin_stack][h_origin-1];
     yard[origin_stack].pop_back();
@@ -70,9 +80,8 @@ void evaluateInd(individuo &ind, vector<vector<int>> &initial_yard, vector<int> 
 
         //Si no es así entonces aplicamos heuristica que toca
         else{
-
+            
             apply_chosen_heuristic(actual_yard, actual_positions, origin_stack, ind.moves[move_actual]);
-
             //Si se acaban los movimentos de la lista y aun quedan container, repetirlos desde el principio
             move_actual == n_moves-1? move_actual = 0 : move_actual++;
         }   

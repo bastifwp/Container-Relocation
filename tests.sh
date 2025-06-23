@@ -9,9 +9,9 @@ max_gen=1000
 popsize=40
 pcross=0.6
 pmut=0.4
-pmut_swap=0.3
+pmut_swap=0.2
 pmut_inversion=0.3
-pmut_intFlip=0.05
+pmut_intFlip=0.5
 
 mkdir -p "${output_dir}"
 
