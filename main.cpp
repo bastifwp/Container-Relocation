@@ -56,7 +56,7 @@ int main(int argc, char *argv[]){
     params.elite = 1; // Multiplo de 4, menor a popsize
 
     //Definimos que vamos a debugear
-    debug.save_pops = false;
+    debug.save_pops = true;
     debug.show_initial_yard = false;
 
     //Creamos los archivos de data

@@ -68,7 +68,9 @@ int apply_random_heuristic(std::vector<std::vector<int>> &yard, std::vector<int>
 
 /*Evolutive Algorithm functions*/
 std::vector<individuo> one_point_crossover(individuo padre1, individuo padre2);
+std::vector<individuo> opc(individuo &padre1, individuo &padre2);
 std::vector<individuo> two_point_crossover(individuo padre1, individuo padre2);
+std::vector<individuo> tpc(individuo &padre1, individuo &padre2);
 void swap(individuo &ind);
 void inversion(individuo &ind);
 void intFlip(individuo &ind);

@@ -80,11 +80,27 @@ void evaluateInd(individuo &ind, vector<vector<int>> &initial_yard, vector<int> 
 
         //Si no es así entonces aplicamos heuristica que toca
         else{
+
+            //Si aun quedan movimientos en la lista, aplicarlos
+            if(move_actual < n_moves){
+                apply_chosen_heuristic(actual_yard, actual_positions, origin_stack, ind.moves[move_actual]);
+                move_actual++;
+            }
+            //Si no quedan, agregar nuevos movimientos de forma aleatoria
+            else{
+                int coded_heuristic = apply_random_heuristic(actual_yard, actual_positions, origin_stack);
+                ind.moves.push_back(coded_heuristic);
+            }
             
-            apply_chosen_heuristic(actual_yard, actual_positions, origin_stack, ind.moves[move_actual]);
             //Si se acaban los movimentos de la lista y aun quedan container, repetirlos desde el principio
-            move_actual == n_moves-1? move_actual = 0 : move_actual++;
+            //move_actual == n_moves-1? move_actual = 0 : move_actual++;
         }   
+    }
+
+    //Si no se utilizaron todos los movimientos, eliminar los sobrantes
+    while(move_actual < n_moves){
+        ind.moves.pop_back();
+        move_actual++;
     }
 }
 

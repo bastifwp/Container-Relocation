@@ -40,7 +40,8 @@ vector<individuo> one_point_crossover(individuo padre1, individuo padre2){
     
 }
 
-void opc(individuo &padre1, individuo &padre2){
+//Cruzamiento en un punto optimizado
+vector<individuo> opc(individuo &padre1, individuo &padre2){
 
     //Obtenemos punto de corte
     int p1_size = padre1.moves.size();
@@ -54,6 +55,7 @@ void opc(individuo &padre1, individuo &padre2){
         swap(padre1.moves[i], padre2.moves[i]);
     }
 
+    return {padre1, padre2};
 }
 
 //Cruzamiento en dos puntos de toda la vida
@@ -105,8 +107,8 @@ vector<individuo> two_point_crossover(individuo padre1, individuo padre2){
     return {hijo1, hijo2};
 }
 
-//Cruzamiento en dos puntos de toda la vida
-void tpc(individuo &padre1, individuo &padre2){
+//Cruzamiento en dos puntos optimizado
+vector<individuo> tpc(individuo &padre1, individuo &padre2){
 
     //Obtenemos puntos de corte
     int p1_size = padre1.moves.size();
@@ -121,35 +123,11 @@ void tpc(individuo &padre1, individuo &padre2){
         cut2 = temp;
     }
 
-    //Inicializamos hijos
-    individuo hijo1, hijo2;
-    hijo1.moves = {}; hijo2.moves = {};
-    hijo1.fobj[0] = 0; hijo2.fobj[0] = 0;
-    hijo1.fobj[0] = 0; hijo2.fobj[0] = 0;
-
-    //Copiamos parte inicial
-    for (int i = 0; i < cut1; i++)
-    {
-        hijo1.moves.push_back(padre1.moves[i]);
-        hijo2.moves.push_back(padre2.moves[i]);
-    }
     //Copiamos parte del medio
     for (int i = cut1; i < cut2; i++)
     {
-        hijo1.moves.push_back(padre2.moves[i]);
-        hijo2.moves.push_back(padre1.moves[i]);
-    }
-    //Copiamos parte final
-    for (int i = cut2; i < max_size; i++)
-    {
-        
-        if(i < p1_size){
-            hijo1.moves.push_back(padre1.moves[i]);
-        }
-        if(i < p2_size){
-            hijo2.moves.push_back(padre2.moves[i]);
-        }
+        swap(padre1.moves[i], padre2.moves[i]);
     }
 
-
+    return {padre1, padre2};
 }

@@ -1,0 +1,12 @@
+PARAMS: 
+Instance Random/R101606_0720_004.txt
+Seed: 11
+Max_gen: 5000
+Popsize: 40
+Cross prob: 0.6
+Mut prob: 0.4
+Swap prob: 0.4
+Inversion prob: 0.2
+intFlip prob: 0.4
+N heuristics: 3
+Elites: 1

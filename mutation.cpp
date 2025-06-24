@@ -7,7 +7,7 @@ using namespace std;
 void swap(individuo &ind){// De toda la vida
 
     //Swap multiple
-    /*
+    
     int moves_size = ind.moves.size();
     for (int i = 0; i < moves_size; i++)
     {
@@ -19,10 +19,11 @@ void swap(individuo &ind){// De toda la vida
             ind.moves[a] = ind.moves[b];
             ind.moves[b] = aux;
         }
-    }*/
+    }
 
     
     //SWAP único
+    /*
     //Seleccionamos dos indices
     int a = getRandomInt(0, ind.moves.size()-1);
     int b = getRandomInt(0, ind.moves.size()-1);
@@ -32,7 +33,7 @@ void swap(individuo &ind){// De toda la vida
     int aux = ind.moves[a];
     ind.moves[a] = ind.moves[b];
     ind.moves[b] = aux;
-    
+    */
 
 }
  

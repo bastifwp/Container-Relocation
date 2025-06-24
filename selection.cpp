@@ -210,10 +210,10 @@ void generateNewPop(vector<individuo> &old_pop){
 
             float cross = getRandomProb();
             if(cross <= 0.5){
-                children = one_point_crossover(parent1, parent2);
+                children = opc(parent1, parent2);
             }
             else{
-                children = two_point_crossover(parent1, parent2);
+                children = tpc(parent1, parent2);
             }
 
             //children = one_point_crossover(parent1, parent2);
