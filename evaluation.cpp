@@ -9,32 +9,40 @@ void apply_chosen_heuristic(vector<vector<int>> &yard, vector<int> &stack_positi
 
     //Heurística space
     if (choosed == 1){
- //       cout << "my\n";
         destiny_stack = myopic_space(yard, origin_stack);
     }
     //Heurística RI
     else if(choosed == 2){
-  //      cout << "ri\n";
         destiny_stack = RI(yard, origin_stack);
     }
     //Heurística RIL
     else if(choosed == 3){
-//        cout << "ril\n";
+
         destiny_stack = RIL(yard, origin_stack);
     }
-    //Heurística top_diff
+
+    //Heurística RI right handed
     else if(choosed == 4){
- //       cout << "WTf\n";
+        destiny_stack = RI_R(yard, origin_stack);
+    }
+   
+    //Heurística RIL right handed
+    else if(choosed == 5){
+        destiny_stack = RIL_R(yard, origin_stack);
+    }
+    
+    //Heurística top_diff
+    else if(choosed == 6){
         destiny_stack = top_diff(yard, origin_stack);
     }
 
-    else if(choosed == 5){
-   //     cout << "WTF\n";
+    //Heurística rebelde de espacio
+    else if(choosed == 7){
         destiny_stack = myopic_min_space(yard, origin_stack);
     }
 
-    else if(choosed == 6){
-   //     cout << "WTF\n";
+    //Heurística rebelde RI
+    else if(choosed == 8){
         destiny_stack = RI_inverse(yard, origin_stack);
     }
 

@@ -52,7 +52,7 @@ int main(int argc, char *argv[]){
     params.pmut_swap = stof(argv[7]);
     params.pmut_inversion = stof(argv[8]);
     params.pmut_intFlip = stof(argv[9]);
-    params.n_heu = 3;
+    params.n_heu = 5;
     params.elite = 1; // Multiplo de 4, menor a popsize
 
     //Definimos que vamos a debugear

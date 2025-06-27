@@ -46,23 +46,20 @@ void writeIndDecoded(vector<vector<int>> &yard, vector<int> &stack_position, ind
             if (choosed ==  1){
                 destiny_stack = myopic_space(actual_yard, origin_stack);
             }
-            //Heurística block
-            else if (choosed == 2){
-                destiny_stack = myopic_blocked(actual_yard, origin_stack);
-            }
+            
             //Heurística RI
-            else if(choosed == 3){
+            else if(choosed == 2){
                 destiny_stack = RI(actual_yard, origin_stack);
             }
             //Heurística RIL
-            else if(choosed == 4){
+            else if(choosed == 3){
                 destiny_stack = RIL(actual_yard, origin_stack);
             }
 
-            else if(choosed == 5){
+            else if(choosed == 4){
                 destiny_stack = myopic_min_space(actual_yard, origin_stack);
             }
-            else if(choosed == 6){
+            else if(choosed == 5){
                 destiny_stack = RI_inverse(actual_yard, origin_stack);
             }
 

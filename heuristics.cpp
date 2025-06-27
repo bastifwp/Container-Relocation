@@ -31,43 +31,6 @@ int myopic_space(vector<vector<int>> &yard, int origin_stack){
 }
 
 
-int count_blocked(vector<int> stack, int c2relocate){
-
-    int blocked_containers = 0;
-    for(int i = 0; i < stack.size(); i++){
-        if(stack[i]< c2relocate) blocked_containers++;
-    }
-    return blocked_containers;
-}
-
-int myopic_blocked(vector<vector<int>> &yard,  int origin_stack)
-{   
-    //Recorremos la bahía y retornamos el con menor bloqueos
-    int min_blocks = n_initial_containers;
-    int choosed_stack = 0;
-
-    for (int i = 0; i < n_bays*n_rows; i++)
-    {
-    
-        int feasible = max_h - yard[i].size();
-    
-        if(i != origin_stack && feasible != 0){
-
-            int c2relocate = yard[origin_stack][yard[origin_stack].size()-1];
-            int blocked_containers = count_blocked(yard[i], c2relocate);
-
-            if(blocked_containers < min_blocks){
-                min_blocks = blocked_containers;
-                choosed_stack = i; 
-            }
-
-        }
-    }
-
-    return choosed_stack;
-}
-
-
 int RI(vector<vector<int>> &yard, int origin_stack){
 
     //Recorremos todo el yard y vamos calculando
@@ -154,6 +117,97 @@ int RIL(vector<vector<int>> &yard, int origin_stack){
     //Retornamos el mejor stack para moverse
     return choosed_stack;
 }
+
+/*---------------- Right handed heuristics ---------------- */
+
+int RI_R(vector<vector<int>> &yard, int origin_stack){
+
+
+    int h_origin = yard[origin_stack].size();
+    int c2relocate = yard[origin_stack][h_origin-1];
+    int choosed_stack = 0;
+    int min_ri = yard[0].size();
+
+    //Recorremos de derecha a izquierda
+    for(int i = n_bays*n_rows-1; i >= 0; i--){
+        int ri_stack = 0;
+
+        if(i == origin_stack){
+            continue;
+        }
+
+        if(max_h == yard[i].size()) 
+            continue;
+
+        int size = yard[i].size();
+        for(int j = 0; j < size; j++){
+            if(yard[i][j] < c2relocate)
+                ri_stack++;
+        }
+
+   
+        if(min_ri > ri_stack){
+            min_ri = ri_stack;
+            choosed_stack = i;
+        }
+    }
+
+    //Retornamos el mejor stack para moverse
+    return choosed_stack;
+}
+
+
+int RIL_R(vector<vector<int>> &yard, int origin_stack){
+
+    //Recorremos todo el yard y vamos calculando
+    int h_origin = yard[origin_stack].size();
+    int c2relocate = yard[origin_stack][h_origin-1];
+    int choosed_stack = 0;
+    int choosed_container = 0;
+    int min_ri = yard[0].size();
+
+    //Recorremos de derecha a izquierda
+    for(int i = n_bays*n_rows-1; i >= 0; i--){
+        int ri_stack = 0;
+        int highest_c = 0;
+
+
+        if(i == origin_stack){
+            continue;
+        }
+
+        if(max_h == yard[i].size()) 
+            continue;
+
+        int size = yard[i].size();
+        for(int j = 0; j < size; j++){
+            if(yard[i][j] < c2relocate){
+                ri_stack++;
+                if(yard[i][j] > highest_c)
+                    highest_c = yard[i][j];
+            }
+        }
+
+        if(min_ri > ri_stack){
+            min_ri = ri_stack;
+            choosed_stack = i;
+            choosed_container = highest_c;
+        }
+
+        else if(min_ri == ri_stack){
+            if(highest_c > choosed_container){
+                choosed_stack = i;
+                choosed_container = highest_c;
+            }
+        }
+    }
+
+    //Retornamos el mejor stack para moverse
+    return choosed_stack;
+}
+
+
+/* ---------------- FUNCIONES MIOPE REBELDES  ----------------*/
 
 //Función miope inversa de espacio que cambia al stack con menos espacio
 int myopic_min_space(vector<vector<int>> &yard, int origin_stack){
@@ -318,15 +372,29 @@ int apply_random_heuristic(vector<vector<int>> &yard, vector<int> &stack_positio
     else if(choosed == 3){
         destiny_stack = RIL(yard, origin_stack);
     }
-    //Heuristica top_diff
+
+    //Heurística RI right handed
     else if(choosed == 4){
+        destiny_stack = RI_R(yard, origin_stack);
+    }
+   
+    //Heurística RIL right handed
+    else if(choosed == 5){
+        destiny_stack = RIL_R(yard, origin_stack);
+    }
+    
+    //Heuristica top_diff
+    else if(choosed == 6){
         destiny_stack = top_diff(yard, origin_stack);
     }
 
-    else if(choosed == 5){
+    //Heurística rebelde de espacio
+    else if(choosed == 7){
         destiny_stack = myopic_min_space(yard, origin_stack);
     }
-    else if(choosed == 6){
+
+    //Heurística rebelde de RI
+    else if(choosed == 8){
         destiny_stack = RI_inverse(yard, origin_stack);
     }
 

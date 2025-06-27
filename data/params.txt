@@ -1,12 +1,12 @@
 PARAMS: 
-Instance Random/R101606_0720_004.txt
-Seed: 11
-Max_gen: 5000
+Instance Random_test/R101606_0720_005.txt
+Seed: 138
+Max_gen: 1000
 Popsize: 40
 Cross prob: 0.6
 Mut prob: 0.4
-Swap prob: 0.4
-Inversion prob: 0.2
-intFlip prob: 0.4
-N heuristics: 3
+Swap prob: 0.2
+Inversion prob: 0.3
+intFlip prob: 0.5
+N heuristics: 5
 Elites: 1

@@ -59,7 +59,8 @@ std::vector<individuo> initialize_pop(std::vector<std::vector<int>> &initial_yar
 /*Heuristics*/
 int RIL(std::vector<std::vector<int>> &yard, int origin_stack);
 int RI(std::vector<std::vector<int>> &yard, int origin_stack);
-int myopic_blocked(std::vector<std::vector<int>> &yard,  int origin_stack);
+int RI_R(std::vector<std::vector<int>> &yard, int origin_stack);
+int RIL_R(std::vector<std::vector<int>> &yard, int origin_stack);
 int myopic_space(std::vector<std::vector<int>> &yard, int origin_stack);
 int myopic_min_space(std::vector<std::vector<int>> &yard, int origin_stack);
 int RI_inverse(std::vector<std::vector<int>> &yard, int origin_stack);
