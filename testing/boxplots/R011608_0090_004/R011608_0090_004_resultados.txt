@@ -1,0 +1,9 @@
+Resultados instancia: R011608_0090_004
+F[0] = [153.0, 153.0, 154.0, 153.0, 153.0, 153.0, 153.0, 153.0, 153.0, 153.0]
+Tiempo = [0.553841, 0.59526, 0.564042, 0.596554, 0.565835, 0.574974, 0.574326, 0.612736, 0.566285, 0.567657]
+Promedio calidad: 153.1000
+Promedio tiempo: 0.5772
+Desviación estándar calidad: 0.3162
+Desviación estándar tiempo: 0.0184
+Mejor calidad: 153.0000
+Tiempo asociado a mejor calidad: 0.5538

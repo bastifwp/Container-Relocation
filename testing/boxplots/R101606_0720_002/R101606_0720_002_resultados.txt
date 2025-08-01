@@ -1,0 +1,9 @@
+Resultados instancia: R101606_0720_002
+F[0] = [1089.0, 1089.0, 1086.0, 1088.0, 1092.0, 1088.0, 1086.0, 1087.0, 1089.0, 1088.0]
+Tiempo = [23.1313, 23.0997, 23.455, 23.415, 23.3049, 23.1031, 23.8684, 23.0296, 23.5904, 23.448]
+Promedio calidad: 1088.2000
+Promedio tiempo: 23.3445
+Desviación estándar calidad: 1.7512
+Desviación estándar tiempo: 0.2640
+Mejor calidad: 1086.0000
+Tiempo asociado a mejor calidad: 23.4550

@@ -1,5 +1,8 @@
 seed=$1
 
+#seeds=(121 255 11 123 501 135 108 268 151 326)
+#seeds=(121)
+
 # Directorios de input y output
 instances_dir="Random_test"
 output_dir="testing"

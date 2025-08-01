@@ -1,0 +1,9 @@
+Resultados instancia: R021606_0140_004
+F[0] = [227.0, 226.0, 226.0, 226.0, 226.0, 226.0, 226.0, 226.0, 226.0, 226.0]
+Tiempo = [1.19787, 1.19099, 1.20991, 1.2504, 1.18825, 1.20988, 1.27741, 1.2361, 1.20342, 1.23006]
+Promedio calidad: 226.1000
+Promedio tiempo: 1.2194
+Desviación estándar calidad: 0.3162
+Desviación estándar tiempo: 0.0287
+Mejor calidad: 226.0000
+Tiempo asociado a mejor calidad: 1.1883

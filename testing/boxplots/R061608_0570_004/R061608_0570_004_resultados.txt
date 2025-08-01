@@ -1,0 +1,9 @@
+Resultados instancia: R061608_0570_004
+F[0] = [950.0, 931.0, 947.0, 951.0, 948.0, 951.0, 943.0, 950.0, 953.0, 950.0]
+Tiempo = [18.9746, 19.7958, 19.2631, 19.627, 19.5019, 19.743, 19.0091, 19.3449, 19.881, 19.0021]
+Promedio calidad: 947.4000
+Promedio tiempo: 19.4142
+Desviación estándar calidad: 6.3805
+Desviación estándar tiempo: 0.3463
+Mejor calidad: 931.0000
+Tiempo asociado a mejor calidad: 19.7958
